@@ -33,13 +33,25 @@
 
 `default_nettype none
 
+`ifdef BOARD_BITSY
+	// 1bitsquared iCEbreaker bitsy
+	`define HAS_EXTRA_LEDS
+	`define DIM_LED
+`elsif BOARD_ICEBREAKER
+	// 1bitsquare iCEbreaker
+	`define HAS_EXTRA_LEDS
+	`define DIM_LED
+`endif
+
 module top (
 	// Button
 	input  wire btn,
 
 	// LED
+`ifdef HAS_EXTRA_LEDS
 	output wire ledr,
 	output wire ledg,
+`endif
 
 	output wire [2:0] rgb,
 
@@ -86,7 +98,8 @@ module top (
 	wire timer_rst;
 
 	// LED
-	reg [3:0] dim;
+	wire dim;
+	reg  [3:0] dim_cnt;
 	wire [2:0] rgb_pwm;
 
 	// Clock / Reset
@@ -210,19 +223,27 @@ module top (
 	// LED
 	// ---
 
-	assign rgb_pwm[0] = dim[3] & ~boot_now & boot_sel[0];
-	assign rgb_pwm[1] = dim[3] &  boot_now;
-	assign rgb_pwm[2] = dim[3] & ~boot_now & boot_sel[1];
+	assign rgb_pwm[0] = dim & ~boot_now & boot_sel[0];
+	assign rgb_pwm[1] = dim &  boot_now;
+	assign rgb_pwm[2] = dim & ~boot_now & boot_sel[1];
 
+`ifdef HAS_EXTRA_LEDS
 	assign ledr = ~boot_sel[0];
 	assign ledg = ~boot_sel[1];
+`endif
 
 	// Dimming
+`ifdef DIM_LED
 	always @(posedge clk)
 		if (rst)
-			dim <= 4'h0;
+			dim_cnt <= 4'h0;
 		else
-			dim <= dim[3] ? 4'h0 : (dim + 1);
+			dim_cnt <= dim ? 4'h0 : (dim + 1);
+
+	assign dim = dim_cnt[3];
+`else
+	assign dim = 1'b1;
+`endif
 
 	// Driver
 	SB_RGBA_DRV #(
