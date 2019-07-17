@@ -163,8 +163,13 @@ static const struct usb_dev_desc _dev_desc = {
 	.bDeviceSubClass	= 0,
 	.bDeviceProtocol	= 0,
 	.bMaxPacketSize0	= 64,
+#if defined(BOARD_icepick)
+	.idVendor		= 0x1d50,
+	.idProduct		= 0x6149,
+#else
 	.idVendor		= 0x1d50,
 	.idProduct		= 0x6147,
+#endif
 	.bcdDevice		= 0x0001,	/* v0.1 */
 	.iManufacturer		= 2,
 	.iProduct		= 3,

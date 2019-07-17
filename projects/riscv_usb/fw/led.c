@@ -110,6 +110,10 @@ led_color(uint8_t r, uint8_t g, uint8_t b)
 	led_regs->ip.pwrr = g;
 	led_regs->ip.pwrg = r;
 	led_regs->ip.pwrb = b;
+#elif defined(BOARD_icepick)
+	led_regs->ip.pwrr = b;
+	led_regs->ip.pwrg = g;
+	led_regs->ip.pwrb = r;
 #else
 	led_regs->ip.pwrr = r;
 	led_regs->ip.pwrg = g;

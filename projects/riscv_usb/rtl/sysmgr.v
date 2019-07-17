@@ -51,7 +51,11 @@ module sysmgr (
 	reg [3:0] rst_cnt;
 
 	// PLL instance
+`ifdef BOARD_ICEPICK
+	SB_PLL40_2F_CORE #(
+`else
 	SB_PLL40_2F_PAD #(
+`endif
 		.DIVR(4'b0000),
 		.DIVF(7'b0111111),
 		.DIVQ(3'b100),
@@ -65,7 +69,11 @@ module sysmgr (
 		.ENABLE_ICEGATE_PORTA(1'b0),
 		.ENABLE_ICEGATE_PORTB(1'b0)
 	) pll_I (
+`ifdef BOARD_ICEPICK
+		.REFERENCECLK(clk_in),
+`else
 		.PACKAGEPIN(clk_in),
+`endif
 		.PLLOUTCOREA(),
 		.PLLOUTGLOBALA(clk_48m_i),
 		.PLLOUTCOREB(),

@@ -39,7 +39,10 @@ module top (
 	inout  wire spi_miso,
 	inout  wire spi_clk,
 	inout  wire spi_flash_cs_n,
+`ifndef BOARD_ICEPICK
 	inout  wire spi_ram_cs_n,
+`endif
+
 
 	// USB
 	inout  wire usb_dp,
@@ -55,6 +58,11 @@ module top (
 
 	// LED
 	output wire [2:0] rgb,
+
+`ifdef BOARD_ICEPICK
+	// Vio
+	output wire vio_pdm,
+`endif
 
 	// Clock
 	input  wire clk_in
@@ -348,7 +356,9 @@ module top (
 
 		// Bypass OE for CS_n lines
 	assign spi_flash_cs_n = sio_csn_o[0];
+`ifndef BOARD_ICEPICK
 	assign spi_ram_cs_n   = sio_csn_o[1];
+`endif
 
 	// Bus interface
 	assign sb_addr = { 4'h0, wb_addr[3:0] };
@@ -512,6 +522,14 @@ module top (
 		.clk(clk_24m),
 		.rst(rst)
 	);
+
+
+	// Vio
+	// ----
+
+`ifdef BOARD_ICEPICK
+	assign vio_pdm = 1'b1;
+`endif
 
 
 	// Clock / Reset
