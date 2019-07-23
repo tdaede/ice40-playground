@@ -42,12 +42,14 @@ SOURCES_dfu=\
 	usb_desc_dfu.c
 
 HEADERS_app=\
+	usb_cdc_acm.h \
 	usb_dfu_rt.h \
 	usb_dfu_proto.h \
 	usb_str_app.gen.h
 
 SOURCES_app=\
 	fw_app.c \
+	usb_cdc_acm.c \
 	usb_dfu_rt.c \
 	usb_desc_app.c
 

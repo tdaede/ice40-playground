@@ -24,6 +24,7 @@
 #include <stdint.h>
 
 #include "config.h"
+#include "console.h"
 #include "mini-printf.h"
 
 
@@ -37,6 +38,7 @@ static volatile struct wb_uart * const uart_regs = (void*)(UART_BASE);
 
 static char _printf_buf[128];
 
+#if 0
 void console_init(void)
 {
 	uart_regs->clkdiv = 22;	/* 1 Mbaud with clk=24MHz */
@@ -72,6 +74,7 @@ void puts(const char *p)
 		uart_regs->data = c;
 	}
 }
+#endif
 
 int printf(const char *fmt, ...)
 {
