@@ -34,8 +34,8 @@
 `default_nettype none
 
 //`define STREAM
-`define PATTERN
-//`define VIDEO
+//`define PATTERN
+`define VIDEO
 
 module top (
 	// RGB panel PMOD
@@ -91,7 +91,7 @@ module top (
 	localparam integer N_BANKS  = 2;
 `endif
 	localparam integer N_ROWS   = 32;
-	localparam integer N_COLS   = 64;
+	localparam integer N_COLS   = 128;
 	localparam integer N_CHANS  = 3;
 	localparam integer N_PLANES = 10;
 	localparam integer BITDEPTH = 16;
@@ -142,7 +142,7 @@ module top (
 		.N_CHANS(N_CHANS),
 		.N_PLANES(N_PLANES),
 		.BITDEPTH(BITDEPTH),
-		.PANEL_INIT("FM6126"),
+		.PANEL_INIT("NONE"),
 `ifdef BOARD_ICEBREAKER_SINGLE
 		.PHY_DDR(2),	// DDR data with early edge
 		.PHY_AIR(3),	// Enabled and invert INC
@@ -153,7 +153,7 @@ module top (
 		.PHY_AIR(3),	// Enabled and invert INC
 		.SCAN_MODE("LINEAR")
 `else
-		.SCAN_MODE("ZIGZAG")
+		.SCAN_MODE("LINEAR")
 `endif
 	) hub75_I (
 `ifdef BOARD_ICEBREAKER_SINGLE
@@ -180,9 +180,9 @@ module top (
 		.frame_swap(frame_swap),
 		.frame_rdy(frame_rdy),
 		.ctrl_run(ctrl_run),
-		.cfg_pre_latch_len(8'h80),
-		.cfg_latch_len(8'h80),
-		.cfg_post_latch_len(8'h80),
+		.cfg_pre_latch_len(33*3),
+		.cfg_latch_len(1),
+		.cfg_post_latch_len(8'h1),
 		.cfg_bcm_bit_len(8'h06),
 		.clk(clk),
 		.clk_2x(clk_2x),
@@ -270,7 +270,7 @@ module top (
 	// Main video generator / controller
 	vgen #(
 		.ADDR_BASE(24'h040000),
-		.N_FRAMES(30),
+		.N_FRAMES(1),
 		.N_ROWS(N_BANKS * N_ROWS),
 		.N_COLS(N_COLS),
 		.BITDEPTH(BITDEPTH)

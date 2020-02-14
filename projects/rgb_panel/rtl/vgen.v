@@ -35,9 +35,9 @@
 
 module vgen #(
 	parameter ADDR_BASE = 24'h040000,
-	parameter integer N_FRAMES = 30,
+	parameter integer N_FRAMES = 1,
 	parameter integer N_ROWS   = 64,	// # of rows (must be power of 2!!!)
-	parameter integer N_COLS   = 64,	// # of columns
+	parameter integer N_COLS   = 128,	// # of columns
 	parameter integer BITDEPTH = 24,
 
 	// Auto-set
@@ -257,7 +257,7 @@ module vgen #(
 	// ------------------
 
 	assign fbw_wren = sr_valid & cnt_col[0];
-	assign fbw_col_addr = cnt_col[6:1];
+	assign fbw_col_addr = cnt_col[7:1];
 
 	// Map to color
 	assign color[2] = { sr_data16[15:11], sr_data16[15:13] };

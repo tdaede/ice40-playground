@@ -1,11 +1,11 @@
 # RGB panel dual pmod
  # Data for panels with Red on pin 1/5 and Blue on pin 3/7
-set_io -nowarn hub75_data[5] 48  # A7 - Red   1
-set_io -nowarn hub75_data[4] 46 # A8 - Green 1
-set_io -nowarn hub75_data[3] 3 # A9 - Blue  1
-set_io -nowarn hub75_data[2] 2  # A1 - Red   0
-set_io -nowarn hub75_data[1] 47  # A2 - Green 0
-set_io -nowarn hub75_data[0] 4 # A3 - Blue  0
+set_io -nowarn hub75_data[5] 3  # A7 - Red   1
+set_io -nowarn hub75_data[4] 48 # A8 - Green 1
+set_io -nowarn hub75_data[3] 46 # A9 - Blue  1
+set_io -nowarn hub75_data[2] 4  # A1 - Red   0
+set_io -nowarn hub75_data[1] 2  # A2 - Green 0
+set_io -nowarn hub75_data[0] 47 # A3 - Blue  0
 
  # Data for panels with Red on pin 3/7 and Blue on pin 1/5
 #set_io -nowarn hub75_data[5] 46 # A9 - Red   1

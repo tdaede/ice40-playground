@@ -38,9 +38,9 @@ YOSYS_READ_ARGS += -DPANEL_FAST=1
 endif
 
 	# Custom data program
-$(BUILD_TMP)/$(PROJ)-video.bin: $(BUILD_TMP)/$(PROJ).bin data/nyan_glitch_64x64x16.raw
+$(BUILD_TMP)/$(PROJ)-video.bin: $(BUILD_TMP)/$(PROJ).bin data/game2.raw
 	cp $< $@
-	dd if=data/nyan_glitch_64x64x16.raw of=$@ seek=256 bs=1024
+	dd if=data/game2.raw of=$@ seek=256 bs=1024
 
 data-prog: $(BUILD_TMP)/$(PROJ)-video.bin
 	$(ICEPROG) $<

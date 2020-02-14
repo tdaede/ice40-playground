@@ -82,7 +82,7 @@ module hub75_bcm #(
 	reg  [2:0] fsm_state;
 	reg  [2:0] fsm_state_next;
 
-	reg  [7:0] timer_val;
+	reg  [9:0] timer_val;
 	wire timer_trig;
 
 	reg  [N_PLANES-1:0] plane;
@@ -162,7 +162,7 @@ module hub75_bcm #(
 		end
 	end
 
-	assign timer_trig = timer_val[7];
+	assign timer_trig = timer_val[9];
 
 
 	// Plane counter
@@ -199,9 +199,41 @@ module hub75_bcm #(
 		addr_do_rst <= (addr_do_rst | (ctrl_go &  ctrl_row_first)) & ~(fsm_state == ST_POST_LATCH);
 	end
 
-	always @(posedge clk)
-		if (fsm_state == ST_DO_LATCH)
-			addr_out <= addr;
+  reg [5:0] addr_sr_counter;
+  reg set_addr_clk_next;
+   
+
+	always @(posedge clk) begin
+		if (fsm_state == ST_PRE_LATCH) begin
+		  if (addr_out[0] == 1) begin
+        addr_out[0] <= 0;
+        set_addr_clk_next <= 0;
+      end
+      else if (set_addr_clk_next == 1) begin
+        addr_out[0] <= 1;
+        set_addr_clk_next <= 0;
+      end else begin
+        if (addr_sr_counter < 32) begin
+          set_addr_clk_next <= 1;
+          if (addr_sr_counter == (31 - addr)) begin
+            addr_out[2] <= 1;
+          end else begin
+            addr_out[2] <= 0;
+          end
+ 
+          addr_sr_counter <= addr_sr_counter + 1;
+        end
+      end
+    end else if (fsm_state == ST_DO_LATCH) begin
+      addr_sr_counter <= 0;
+      set_addr_clk_next <= 0;
+      addr_out[1] <= 0;
+      addr_out[3] <= 0;
+      addr_out[4] <= 0;
+    end
+
+  end // always @ (posedge clk)
+
 
 	// Latch
 	assign le = (fsm_state == ST_DO_LATCH);

@@ -2,7 +2,7 @@
 
 import math
 
-GAMMA     =  2.0
+GAMMA     =  3.0
 WIDTH_IN  =  8
 WIDTH_OUT = 16
 

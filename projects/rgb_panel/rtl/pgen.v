@@ -35,7 +35,7 @@
 
 module pgen #(
 	parameter integer N_ROWS   = 64,	// # of rows (must be power of 2!!!)
-	parameter integer N_COLS   = 64,	// # of columns
+	parameter integer N_COLS   = 128,	// # of columns
 	parameter integer BITDEPTH = 24,
 
 	// Auto-set
